@@ -1,0 +1,478 @@
+{
+  "collections": [
+    {
+      "name": "Primitives",
+      "modes": [
+        "Value"
+      ],
+      "variables": [
+        {
+          "name": "color/paper-50",
+          "type": "COLOR",
+          "values": {
+            "Value": "#f6f7f3"
+          }
+        },
+        {
+          "name": "color/paper-100",
+          "type": "COLOR",
+          "values": {
+            "Value": "#eef0ea"
+          }
+        },
+        {
+          "name": "color/paper-200",
+          "type": "COLOR",
+          "values": {
+            "Value": "#e1e5dc"
+          }
+        },
+        {
+          "name": "color/paper-300",
+          "type": "COLOR",
+          "values": {
+            "Value": "#b6bdae"
+          }
+        },
+        {
+          "name": "color/ink-500",
+          "type": "COLOR",
+          "values": {
+            "Value": "#565e54"
+          }
+        },
+        {
+          "name": "color/ink-700",
+          "type": "COLOR",
+          "values": {
+            "Value": "#3b423a"
+          }
+        },
+        {
+          "name": "color/ink-900",
+          "type": "COLOR",
+          "values": {
+            "Value": "#1c211c"
+          }
+        },
+        {
+          "name": "color/night-900",
+          "type": "COLOR",
+          "values": {
+            "Value": "#141814"
+          }
+        },
+        {
+          "name": "color/night-800",
+          "type": "COLOR",
+          "values": {
+            "Value": "#1c211c"
+          }
+        },
+        {
+          "name": "color/night-700",
+          "type": "COLOR",
+          "values": {
+            "Value": "#262c26"
+          }
+        },
+        {
+          "name": "color/night-600",
+          "type": "COLOR",
+          "values": {
+            "Value": "#454d45"
+          }
+        },
+        {
+          "name": "color/night-300",
+          "type": "COLOR",
+          "values": {
+            "Value": "#9aa397"
+          }
+        },
+        {
+          "name": "color/night-100",
+          "type": "COLOR",
+          "values": {
+            "Value": "#e8ebe4"
+          }
+        },
+        {
+          "name": "color/sun-100",
+          "type": "COLOR",
+          "values": {
+            "Value": "#f8e9cf"
+          }
+        },
+        {
+          "name": "color/sun-400",
+          "type": "COLOR",
+          "values": {
+            "Value": "#e7a93e"
+          }
+        },
+        {
+          "name": "color/sun-600",
+          "type": "COLOR",
+          "values": {
+            "Value": "#8a5413"
+          }
+        },
+        {
+          "name": "color/sun-900",
+          "type": "COLOR",
+          "values": {
+            "Value": "#3a2a12"
+          }
+        },
+        {
+          "name": "color/leaf-600",
+          "type": "COLOR",
+          "values": {
+            "Value": "#366d45"
+          }
+        },
+        {
+          "name": "color/leaf-300",
+          "type": "COLOR",
+          "values": {
+            "Value": "#8fc39b"
+          }
+        },
+        {
+          "name": "color/clay-600",
+          "type": "COLOR",
+          "values": {
+            "Value": "#a7452d"
+          }
+        },
+        {
+          "name": "color/clay-300",
+          "type": "COLOR",
+          "values": {
+            "Value": "#e79a84"
+          }
+        },
+        {
+          "name": "color/clay-100",
+          "type": "COLOR",
+          "values": {
+            "Value": "#f6e1da"
+          }
+        },
+        {
+          "name": "color/clay-900",
+          "type": "COLOR",
+          "values": {
+            "Value": "#3a1d16"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Semantic",
+      "modes": [
+        "Light",
+        "Dark"
+      ],
+      "variables": [
+        {
+          "name": "color/bg",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/paper-100"
+            },
+            "Dark": {
+              "alias": "color/night-900"
+            }
+          }
+        },
+        {
+          "name": "color/surface",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/paper-50"
+            },
+            "Dark": {
+              "alias": "color/night-800"
+            }
+          }
+        },
+        {
+          "name": "color/surface-2",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/paper-200"
+            },
+            "Dark": {
+              "alias": "color/night-700"
+            }
+          }
+        },
+        {
+          "name": "color/line",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/paper-300"
+            },
+            "Dark": {
+              "alias": "color/night-600"
+            }
+          }
+        },
+        {
+          "name": "color/text",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/ink-900"
+            },
+            "Dark": {
+              "alias": "color/night-100"
+            }
+          }
+        },
+        {
+          "name": "color/text-2",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/ink-500"
+            },
+            "Dark": {
+              "alias": "color/night-300"
+            }
+          }
+        },
+        {
+          "name": "color/action",
+          "type": "COLOR",
+          "description": "Buttons and controls: ink, not colour. The accent is reserved for Tend's own actions.",
+          "values": {
+            "Light": {
+              "alias": "color/ink-900"
+            },
+            "Dark": {
+              "alias": "color/night-100"
+            }
+          }
+        },
+        {
+          "name": "color/action-text",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/paper-50"
+            },
+            "Dark": {
+              "alias": "color/night-900"
+            }
+          }
+        },
+        {
+          "name": "color/tend",
+          "type": "COLOR",
+          "description": "Marks something Tend did or will do for the household. Never decoration.",
+          "values": {
+            "Light": {
+              "alias": "color/sun-600"
+            },
+            "Dark": {
+              "alias": "color/sun-400"
+            }
+          }
+        },
+        {
+          "name": "color/tend-soft",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/sun-100"
+            },
+            "Dark": {
+              "alias": "color/sun-900"
+            }
+          }
+        },
+        {
+          "name": "color/ok",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/leaf-600"
+            },
+            "Dark": {
+              "alias": "color/leaf-300"
+            }
+          }
+        },
+        {
+          "name": "color/miss",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/clay-600"
+            },
+            "Dark": {
+              "alias": "color/clay-300"
+            }
+          }
+        },
+        {
+          "name": "color/miss-soft",
+          "type": "COLOR",
+          "description": "",
+          "values": {
+            "Light": {
+              "alias": "color/clay-100"
+            },
+            "Dark": {
+              "alias": "color/clay-900"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Dimensions",
+      "modes": [
+        "Value"
+      ],
+      "variables": [
+        {
+          "name": "text/xs",
+          "type": "FLOAT",
+          "values": {
+            "Value": 13
+          }
+        },
+        {
+          "name": "text/sm",
+          "type": "FLOAT",
+          "values": {
+            "Value": 15
+          }
+        },
+        {
+          "name": "text/md",
+          "type": "FLOAT",
+          "values": {
+            "Value": 17
+          }
+        },
+        {
+          "name": "text/lg",
+          "type": "FLOAT",
+          "values": {
+            "Value": 21
+          }
+        },
+        {
+          "name": "text/xl",
+          "type": "FLOAT",
+          "values": {
+            "Value": 27
+          }
+        },
+        {
+          "name": "text/2xl",
+          "type": "FLOAT",
+          "values": {
+            "Value": 34
+          }
+        },
+        {
+          "name": "target",
+          "type": "FLOAT",
+          "values": {
+            "Value": 48
+          }
+        },
+        {
+          "name": "space/1",
+          "type": "FLOAT",
+          "values": {
+            "Value": 4
+          }
+        },
+        {
+          "name": "space/2",
+          "type": "FLOAT",
+          "values": {
+            "Value": 8
+          }
+        },
+        {
+          "name": "space/3",
+          "type": "FLOAT",
+          "values": {
+            "Value": 12
+          }
+        },
+        {
+          "name": "space/4",
+          "type": "FLOAT",
+          "values": {
+            "Value": 16
+          }
+        },
+        {
+          "name": "space/5",
+          "type": "FLOAT",
+          "values": {
+            "Value": 24
+          }
+        },
+        {
+          "name": "space/6",
+          "type": "FLOAT",
+          "values": {
+            "Value": 32
+          }
+        },
+        {
+          "name": "space/7",
+          "type": "FLOAT",
+          "values": {
+            "Value": 48
+          }
+        },
+        {
+          "name": "radius/sm",
+          "type": "FLOAT",
+          "values": {
+            "Value": 10
+          }
+        },
+        {
+          "name": "radius/md",
+          "type": "FLOAT",
+          "values": {
+            "Value": 18
+          }
+        },
+        {
+          "name": "radius/pill",
+          "type": "FLOAT",
+          "values": {
+            "Value": 999
+          }
+        }
+      ]
+    }
+  ]
+}

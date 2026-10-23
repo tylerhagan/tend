@@ -1,0 +1,70 @@
+/* Generated from tokens/tend.tokens.json by scripts/build-tokens.mjs. Do not edit. */
+:root {
+  --bg: #eef0ea;
+  --surface: #f6f7f3;
+  --surface-2: #e1e5dc;
+  --line: #b6bdae;
+  --text: #1c211c;
+  --text-2: #565e54;
+  --action: #1c211c;
+  --action-text: #f6f7f3;
+  --tend: #8a5413;
+  --tend-soft: #f8e9cf;
+  --ok: #366d45;
+  --miss: #a7452d;
+  --miss-soft: #f6e1da;
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --text-xs: 13px;
+  --text-sm: 15px;
+  --text-md: 17px;
+  --text-lg: 21px;
+  --text-xl: 27px;
+  --text-2xl: 34px;
+  --target: 48px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --radius-sm: 10px;
+  --radius-md: 18px;
+  --radius-pill: 999px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141814;
+    --surface: #1c211c;
+    --surface-2: #262c26;
+    --line: #454d45;
+    --text: #e8ebe4;
+    --text-2: #9aa397;
+    --action: #e8ebe4;
+    --action-text: #141814;
+    --tend: #e7a93e;
+    --tend-soft: #3a2a12;
+    --ok: #8fc39b;
+    --miss: #e79a84;
+    --miss-soft: #3a1d16;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141814;
+  --surface: #1c211c;
+  --surface-2: #262c26;
+  --line: #454d45;
+  --text: #e8ebe4;
+  --text-2: #9aa397;
+  --action: #e8ebe4;
+  --action-text: #141814;
+  --tend: #e7a93e;
+  --tend-soft: #3a2a12;
+  --ok: #8fc39b;
+  --miss: #e79a84;
+  --miss-soft: #3a1d16;
+  color-scheme: dark;
+}
