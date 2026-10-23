@@ -14,22 +14,36 @@ const HOURLY_PRICE = {
 // What exported solar earns per kWh; the opportunity cost of using it at home
 export const FEED_IN = 0.08;
 
-export const priceAt = (slot) => {
+// Each night differs: a price level, overnight wind that lowers night prices,
+// and how much sun the next day brings. Index 0 is Monday night.
+export const NIGHTS = [
+  { level: 1.0, wind: 0.0, sky: 0.55 },
+  { level: 0.97, wind: 0.05, sky: 0.35 },
+  { level: 1.04, wind: 0.0, sky: 0.6 },
+  { level: 1.0, wind: 0.02, sky: 0.5 },
+  { level: 1.06, wind: 0.0, sky: 0.45 },
+  { level: 0.95, wind: 0.06, sky: 0.65 },
+  { level: 0.92, wind: 0.08, sky: 0.7 },
+];
+
+export const priceAt = (slot, night = 0) => {
+  const n = NIGHTS[night % NIGHTS.length];
   const m = slotMinutes(slot);
   const h = Math.floor(m / 60);
   const next = HOURLY_PRICE[(h + 1) % 24];
   const t = (m % 60) / 60;
   // Interpolate within the hour, plus a small deterministic wobble so the
   // curve looks like a market rather than a staircase
-  const wobble = Math.sin(slot * 1.7) * 0.004;
-  return +(HOURLY_PRICE[h] * (1 - t) + next * t + wobble).toFixed(4);
+  const wobble = Math.sin(slot * 1.7 + night) * 0.004;
+  const windy = h >= 22 || h < 5 ? n.wind : 0;
+  return +((HOURLY_PRICE[h] * (1 - t) + next * t) * n.level - windy + wobble).toFixed(4);
 };
 
-export const prices = () => Array.from({ length: SLOTS }, (_, i) => priceAt(i));
+export const prices = (night = 0) => Array.from({ length: SLOTS }, (_, i) => priceAt(i, night));
 
 // Solar output in kW for a system of `kwp`. Late-October day: roughly
 // 07:45 to 17:15, peaking at about 55% of rated power.
-export const solarAt = (slot, kwp, sky = 0.55) => {
+export const solarAt = (slot, kwp, sky = NIGHTS[0].sky) => {
   const h = slotMinutes(slot) / 60;
   const rise = 7.75;
   const set = 17.25;

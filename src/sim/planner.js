@@ -5,7 +5,7 @@
 // goals afterwards. Every choice keeps a reason, so the morning summary can
 // explain it in a sentence.
 import { SLOTS, SLOT_H, SLOT_MIN, clockSlot, slotClock } from './time.js';
-import { priceAt, solarAt, baseLoadAt, FEED_IN } from './world.js';
+import { priceAt, solarAt, baseLoadAt, FEED_IN, NIGHTS } from './world.js';
 import { goalEnergy, goalMaxKw } from './households.js';
 
 const EPS = 1e-6;
@@ -23,10 +23,10 @@ const windowOf = (goal, opts) => {
   return { from, by: Math.max(by, from) };
 };
 
-const worldFor = (household) =>
+const worldFor = (household, night = 0) =>
   Array.from({ length: SLOTS }, (_, i) => ({
-    price: priceAt(i),
-    solar: solarAt(i, household.solarKwp),
+    price: priceAt(i, night),
+    solar: solarAt(i, household.solarKwp, NIGHTS[night % NIGHTS.length].sky),
     base: baseLoadAt(i, household.people, household.homeInDay),
   }));
 
@@ -122,14 +122,15 @@ const goalCost = (world, take) =>
   }, 0);
 
 const simulate = (household, goals, opts, strategyFor) => {
-  const world = worldFor(household);
+  const world = worldFor(household, opts.night ?? 0);
   const alloc = new Array(SLOTS).fill(0);
   const ordered = [...goals].sort(
     (a, b) => (a.firm === b.firm ? clockSlot(a.by) - clockSlot(b.by) : a.firm === 'must' ? -1 : 1)
   );
   const placed = ordered.map((goal) => {
     const win = windowOf(goal, opts);
-    const strategy = strategyFor(goal);
+    // An override to "run it now" beats the optimiser (principle 3)
+    const strategy = opts.overrides?.[goal.id]?.asap ? 'asap' : strategyFor(goal);
     const r = goal.runMin ? placeRun(household, world, alloc, goal, win, strategy) : placeEnergy(household, world, alloc, goal, win, strategy);
     const slots = Object.keys(r.take).map(Number).sort((a, b) => a - b);
     return { goal, win, ...r, slots };
@@ -171,6 +172,7 @@ const describe = (household, world, p, naive) => {
   return {
     id: goal.id,
     goal,
+    win: p.win,
     start,
     finish,
     startClock: start === undefined ? null : slotClock(start),
