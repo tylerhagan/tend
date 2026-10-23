@@ -22,7 +22,7 @@ export const CLAUSES = {
 const show = (key, v) => (key === 'outcome' && typeof v === 'number' ? `${Math.round(v * 100)}%` : key === 'by' ? clock(v) : v);
 
 // Clause-by-clause builder: the sentence is the form
-export function GoalBuilder({ goal, onSave, onCancel }) {
+export function GoalBuilder({ goal, onSave, onCancel, title = 'Change this goal' }) {
   const [draft, setDraft] = useState(goal);
   const [open, setOpen] = useState(null);
   const chip = (key) => (
@@ -43,7 +43,7 @@ export function GoalBuilder({ goal, onSave, onCancel }) {
 
   return (
     <div className="builder">
-      <p className="sheet-title">Change this goal</p>
+      {title && <p className="sheet-title">{title}</p>}
       <p className="sheet-sub">Tap any underlined part.</p>
       <p className="sentence">
         {subject} {chip('firm')} {be} {chip('outcome')} {verb} {chip('by')} {draft.when === 'tomorrow only' ? '' : draft.when === 'every day' ? '' : 'on '}{chip('when')}.

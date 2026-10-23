@@ -7,6 +7,7 @@ import Today from './ui/Today.jsx';
 import Goals, { GoalBuilder } from './ui/Goals.jsx';
 import Week from './ui/Week.jsx';
 import Sheet from './ui/Sheet.jsx';
+import Onboarding from './ui/Onboarding.jsx';
 
 const NOW = clockSlot('21:15'); // "now" for tonight's overrides
 const LATE_LAST_NIGHT = clockSlot('05:15');
@@ -36,6 +37,7 @@ export default function App() {
   const [sheet, setSheet] = useState(null);
   const [note, setNote] = useState(null);
   const [demoOpen, setDemoOpen] = useState(false);
+  const [setup, setSetup] = useState(false);
 
   const household = households[hid];
   const hasCar = s.goals.some((g) => g.device === 'car');
@@ -143,7 +145,18 @@ export default function App() {
           <span className="app-bar-meta">{household.short}</span>
         </div>
 
-        {tab === 'today' && (
+        {setup && (
+          <Onboarding
+            household={household}
+            onDone={(goal, mode) => {
+              update({ mode, goals: s.goals.map((g) => (g.id === goal.id ? goal : g)) });
+              setSetup(false);
+              setTab('today');
+              setNote('You’re set up. Here’s what Tend plans for tonight.');
+            }}
+          />
+        )}
+        {!setup && tab === 'today' && (
           <Today
             household={household}
             lastNight={lastNight}
@@ -162,7 +175,7 @@ export default function App() {
             onNote={setNote}
           />
         )}
-        {tab === 'goals' && (
+        {!setup && tab === 'goals' && (
           <Goals
             household={household}
             goals={s.goals}
@@ -171,17 +184,17 @@ export default function App() {
             onResume={(goal) => update({ paused: { ...s.paused, [goal.id]: false } })}
           />
         )}
-        {tab === 'week' && (
+        {!setup && tab === 'week' && (
           <Week household={household} nights={nights} mode={s.mode} onNote={setNote} onPromote={() => { update({ mode: 'act' }); setNote('Tend will go ahead and tell you each morning.'); }} />
         )}
 
-        <nav className="tabs" aria-label="Sections">
+        {!setup && <nav className="tabs" aria-label="Sections">
           {TABS.map(([id, label]) => (
             <button key={id} type="button" className="tab" aria-current={tab === id ? 'page' : undefined} onClick={() => { setTab(id); window.scrollTo({ top: 0 }); }}>
               {label}
             </button>
           ))}
-        </nav>
+        </nav>}
 
         {note && <div className="toast" role="status">{note}</div>}
 
@@ -260,6 +273,7 @@ export default function App() {
             <button type="button" className="demo-opt" aria-pressed={s.mode === 'suggest'} onClick={() => update({ mode: 'suggest' })}>Asks first</button>
             <button type="button" className="demo-opt" aria-pressed={s.mode === 'act'} onClick={() => update({ mode: 'act' })}>Acts, then tells you</button>
           </fieldset>
+          <button type="button" className="demo-opt" aria-pressed={setup} onClick={() => { setSetup(true); setDemoOpen(false); window.scrollTo({ top: 0 }); }}>Start from first-time setup</button>
           <p className="demo-foot">
             A self-initiated concept by <a href="https://tylerhagan.co.uk">Tyler Hagan</a>. Fictional product; prices, devices and households are simulated.
           </p>

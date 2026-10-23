@@ -404,3 +404,6 @@ button { font: inherit; color: inherit; }
   font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
 }
+
+.choice-card { text-align: left; border: 1.5px solid var(--line); cursor: pointer; font: inherit; color: inherit; }
+.choice-card:hover { border-color: var(--action); }
