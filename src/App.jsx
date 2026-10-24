@@ -281,6 +281,7 @@ export default function App() {
             <button type="button" className="demo-opt" aria-pressed={s.mode === 'act'} onClick={() => update({ mode: 'act' })}>Acts, then tells you</button>
           </fieldset>
           <button type="button" className="demo-opt" aria-pressed={setup} onClick={() => { setSetup(true); setDemoOpen(false); window.scrollTo({ top: 0 }); }}>Start from first-time setup</button>
+          <a className="demo-opt demo-link" href="/case-study/">Read the case study →</a>
           <p className="demo-foot">
             A self-initiated concept by <a href="https://tylerhagan.co.uk">Tyler Hagan</a>. Fictional product; prices, devices and households are simulated.
           </p>

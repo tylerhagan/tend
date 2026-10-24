@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Tend · Case study · Tyler Hagan</title>
+    <meta name="description" content="Case study (in progress): designing and building Tend, a concept for handing household energy decisions to automation without losing control." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&display=swap" />
+    <link rel="stylesheet" href="/src/styles/tokens.css" />
+    <link rel="stylesheet" href="/src/styles/case-study.css" />
+  </head>
+  <body>
+    <header class="cs-top">
+      <a href="https://tylerhagan.co.uk" class="cs-by">Tyler Hagan</a>
+      <a href="/" class="btn small">Open the prototype</a>
+    </header>
+
+    <main class="cs">
+      <section class="cs-hero">
+        <p class="cs-kicker">Case study · self-initiated concept, 2026 · <span class="cs-status">in progress: testing next</span></p>
+        <h1>Letting a home run its own energy, without the household losing control</h1>
+        <p class="cs-lead">Tend is a concept for households with solar, a battery and an electric car or heat pump. It moves energy use into the cheapest hours on its own, and it is designed around one question: what does a person need to see, and be able to do, to keep trusting software that acts in their home while they sleep?</p>
+        <dl class="cs-facts">
+          <div><dt>Role</dt><dd>Everything: framing, research, interaction and visual design, design system, the planning engine and the front end</dd></div>
+          <div><dt>Stage</dt><dd>Working prototype with simulated data; moderated testing next</dd></div>
+          <div><dt>Built with</dt><dd>React, Vite, a token pipeline to CSS and Figma variables, 19 automated tests</dd></div>
+        </dl>
+        <figure class="cs-fig wide"><img src="/case-study/summary.webp" alt="Tend's morning summary: Everything was ready. Tend's timing saved 4,87 € overnight." /></figure>
+      </section>
+
+      <section>
+        <h2>The problem</h2>
+        <p>Since January 2025 every German electricity supplier has to offer a dynamic tariff to households with a smart meter, where the price changes through the day. A home that can shift when its car charges or its heat pump runs can save real money. But the saving only arrives if something actually moves the load.</p>
+        <p>Today that is either the household, watching prices and remembering to act, or a manufacturer's optimiser that acts without explaining itself. The hard part is not the optimisation. It is <strong>delegation</strong>: what the system may do on its own, what it must ask about, and how it accounts for itself afterwards.</p>
+        <blockquote class="cs-quote">How might a household hand everyday energy decisions to automation, without losing the feeling that they are in control?</blockquote>
+      </section>
+
+      <section>
+        <h2>What I started from</h2>
+        <h3>Five proto-personas, labelled as assumptions</h3>
+        <p>I didn't interview owners for this concept. Instead I wrote five household profiles from eight years designing across the residential solar lifecycle (selling, installing, monitoring and ownership), and treated every detail as an assumption to test, not a finding.</p>
+        <ul class="cs-personas">
+          <li><strong>The busy family home.</strong> Six people. Judged on its worst morning, not its average saving.</li>
+          <li><strong>The rural home.</strong> Big solar surplus, long drives, an older house that cools quickly.</li>
+          <li><strong>The city professional.</strong> One car, little patience for setup.</li>
+          <li><strong>The everyday family.</strong> Predictable weekdays; wants to see the savings. The main design target.</li>
+          <li><strong>The retired couple.</strong> Home all day; warmth first; trust has to be earned.</li>
+        </ul>
+        <h3>The assumptions most likely to break the design</h3>
+        <ol class="cs-assumptions">
+          <li><span>A1</span>People accept automatic actions they didn't see, if they get a clear explanation afterwards.</li>
+          <li><span>A2</span>Goals written as plain sentences are easier to set than schedules.</li>
+          <li><span>A3</span>Showing what an override costs, before confirming, feels helpful rather than guilt-inducing.</li>
+          <li><span>A4</span>Comfort and readiness matter more than price.</li>
+          <li><span>A6</span>Control can be handed over gradually: suggest first, act later.</li>
+        </ol>
+        <h3>What competitors do</h3>
+        <p>I reviewed how Tibber, 1KOMMA5° Heartbeat, Enpal.One, Rabot Energy and Intelligent Octopus Go describe their automation publicly. All of them sell the same promise: <em>you don't have to think about it</em>. None of them leads with explaining what the system did, or with how to overrule it. One answers the trust question commercially, with a price guarantee. Octopus comes closest to a design answer: you state an outcome (80% by 7:00), not a schedule, but for one device only.</p>
+        <p class="cs-callout">The gap Tend aims at: earn trust with transparency and control, instead of asking for it with a guarantee.</p>
+      </section>
+
+      <section>
+        <h2>Key decisions</h2>
+        <div class="cs-decision">
+          <div>
+            <h3>1 · Goals are sentences, not schedules</h3>
+            <p>A household says what must be ready and when; Tend picks the hours. Each goal reads as one sentence, built clause by clause from sensible defaults: <em>The car must be at 80% by 7:00 on weekdays.</em> A car goal can also be set by range (<em>enough for 150 km</em>), because people think in journeys, not percentages.</p>
+          </div>
+          <figure class="cs-fig"><img src="/case-study/goal.webp" alt="Changing a goal: each underlined part of the sentence can be tapped" /></figure>
+        </div>
+        <div class="cs-decision">
+          <div>
+            <h3>2 · "Must" and "should"</h3>
+            <p>Principle: comfort is a hard constraint, price is a soft one. A <em>must</em> goal is never missed to save money; a <em>should</em> goal may finish later if doing it on time would cost a lot more. Heating, hot water and the car default to <em>must</em>, appliances to <em>should</em>. I started with "must / prefer", but "prefer" didn't read naturally inside a sentence, which the sketches showed straight away.</p>
+          </div>
+        </div>
+        <div class="cs-decision">
+          <div>
+            <h3>3 · Outcome first, then every action with its reason</h3>
+            <p>The home screen each morning says whether everything was ready, then lists what Tend did, with why and what it saved. When a goal is missed, it says so first and plainly, explains what limited it, and what happens next. An early draft read as blaming the household ("plugged in too late"); it now states what was possible and that Tend did its best.</p>
+          </div>
+          <figure class="cs-fig"><img src="/case-study/summary-late.webp" alt="Morning summary when the car was plugged in late: The car only reached 69%" /></figure>
+        </div>
+        <div class="cs-decision">
+          <div>
+            <h3>4 · The person always wins, and sees the cost first</h3>
+            <p>Any plan can be overruled in one step. Before confirming, Tend states the extra cost as a plain fact, and "just tonight" is the default, so a one-off need never quietly rewrites the rules. A single Pause returns the home to how it ran before Tend.</p>
+          </div>
+          <figure class="cs-fig"><img src="/case-study/override.webp" alt="Override sheet: Charge the car now? With the extra cost and two scope options" /></figure>
+        </div>
+        <div class="cs-decision">
+          <div>
+            <h3>5 · Conflicts are the household's call</h3>
+            <p>When two goals can't both be met, Tend says so as soon as it knows, in one sentence, and offers ways out that the planner has already priced. It never silently picks a winner. The engine also tells a real clash apart from a goal that was simply impossible, so it never offers a choice that wouldn't help.</p>
+          </div>
+          <figure class="cs-fig"><img src="/case-study/conflict.webp" alt="Conflict prompt: the car and the heating need power at the same time, with two options" /></figure>
+        </div>
+        <div class="cs-decision">
+          <div>
+            <h3>6 · Delegation is earned, one device at a time</h3>
+            <p>New households start in "asks first": Tend proposes each action and waits for a yes. After a run of yeses it offers, but never forces, the move to "acts, then tells you". The mode is per device, so a household can trust the battery completely and the heating not at all.</p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Building it for real</h2>
+        <p>The prototype runs on a planning engine, not canned screens. It simulates a household's night in 15-minute slots: a dynamic tariff, late-October solar, background use, and the household's power limit. Must goals are placed by deadline in the cheapest slots, then should goals, then the battery serves them. Every placement keeps a plain-language reason, which is where the morning summary's explanations come from. 19 tests cover the rules, including the difference between a conflict and a shortfall.</p>
+        <figure class="cs-fig wide"><img src="/case-study/plan.webp" alt="Tonight's plan: each goal placed against the price curve through the night" /></figure>
+        <p>The visual direction is calm and domestic: a sage-tinted paper ground, ink controls, and a single warm accent that only ever marks something Tend did or will do. Body text is set in Atkinson Hyperlegible for low-vision readers, tap targets are 48 px, and every colour pairing passes WCAG AA in both themes. One token file generates the CSS and the Figma variables, the same way I'd set up a production system.</p>
+      </section>
+
+      <section>
+        <h2>Before testing: what the personas predicted</h2>
+        <p>Before putting it in front of people, I ran each persona through the test script as a set of predictions. These are hypotheses, not results, but several pointed at friction worth removing first, so the sessions measure the concept rather than avoidable problems:</p>
+        <ul class="cs-changes">
+          <li>The late-charging summary could read as blaming the household, so it now states what was possible instead.</li>
+          <li>"Just tonight" and "Always" were only explained after confirming, so they now say what they mean before.</li>
+          <li>The rural household thinks in distance, so car goals can now be set by range.</li>
+          <li>The retired couple wanted an easy way to step back, so there is now a single Pause.</li>
+        </ul>
+      </section>
+
+      <section class="cs-next">
+        <h2>Next: testing</h2>
+        <p>Moderated sessions with 3–5 people on the live prototype, 15–20 minutes each. Each task targets one assumption:</p>
+        <table class="cs-table">
+          <thead><tr><th>Task</th><th>Tests</th><th>It works if</th></tr></thead>
+          <tbody>
+            <tr><td>Set up a first goal</td><td>A2</td><td>Done unaided in under 3 minutes; "must" and "should" explained correctly</td></tr>
+            <tr><td>Read the morning summary</td><td>A1</td><td>They can say what ran and why, unprompted, including the missed-goal morning</td></tr>
+            <tr><td>Get the car sooner</td><td>A3</td><td>They use the cost to decide, without guilt, and understand tonight vs always</td></tr>
+            <tr><td>Resolve the conflict</td><td>A2, A4</td><td>They understand the clash and can explain their choice</td></tr>
+            <tr><td>Hand over control</td><td>A6</td><td>Cautious users prefer to review first, and can say what would earn their trust</td></tr>
+          </tbody>
+        </table>
+        <p>Findings will replace this section, reported as what people did and said.</p>
+      </section>
+
+      <footer class="cs-foot">
+        <p>Tend is a self-initiated concept by <a href="https://tylerhagan.co.uk">Tyler Hagan</a>. Fictional product, not affiliated with any energy company; prices, devices and households are simulated. <a href="https://github.com/tylerhagan/tend">Code on GitHub</a>.</p>
+        <a href="/" class="btn">Open the prototype</a>
+      </footer>
+    </main>
+  </body>
+</html>
