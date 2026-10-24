@@ -23,6 +23,7 @@ const TABS = [
 const freshState = (id) => ({
   goals: households[id].goals,
   paused: {},
+  pausedAll: false,
   approvals: {},
   tonight: {}, // per-goal overrides for tonight only
   tonightGoals: {}, // per-goal sentence changes for tonight only
@@ -70,6 +71,7 @@ export default function App() {
   const tonightOverrides = {
     ...(scenario === 'late' && hasCar ? { 'g-car': { fromSlot: LATE_TONIGHT } } : {}),
     ...s.tonight,
+    ...(s.pausedAll ? Object.fromEntries(active.map((g) => [g.id, { asap: true }])) : {}),
   };
   const tonightOpts = { night: 1, goals: tonightGoals, overrides: tonightOverrides };
   const tonight = useMemo(() => plan(household, tonightOpts), [household, JSON.stringify(tonightOpts)]);
@@ -142,7 +144,9 @@ export default function App() {
       <main className="app" aria-label="Tend app (concept)">
         <div className="app-bar">
           <span className="wordmark">tend</span>
-          <span className="app-bar-meta">{household.short}</span>
+          <button type="button" className="pause-btn" aria-pressed={s.pausedAll} onClick={() => { update({ pausedAll: !s.pausedAll }); setNote(s.pausedAll ? 'Tend is back on. Tonight runs in the cheapest hours again.' : 'Tend is paused. Everything runs as soon as it’s ready, like before.'); }}>
+            {s.pausedAll ? 'Resume Tend' : 'Pause Tend'}
+          </button>
         </div>
 
         {setup && (
@@ -161,7 +165,9 @@ export default function App() {
             household={household}
             lastNight={lastNight}
             tonight={tonight}
-            conflict={conflict}
+            conflict={s.pausedAll ? null : conflict}
+            pausedAll={s.pausedAll}
+            onResumeAll={() => update({ pausedAll: false })}
             mode={s.mode}
             approvals={s.approvals}
             onOverride={openOverride}
@@ -209,8 +215,8 @@ export default function App() {
             </p>
             <fieldset className="scope">
               <legend className="visually-hidden">How long for</legend>
-              <label><input type="radio" name="scope" checked={sheet.scope === 'once'} onChange={() => setSheet({ ...sheet, scope: 'once' })} /> Just tonight</label>
-              <label><input type="radio" name="scope" checked={sheet.scope === 'always'} onChange={() => setSheet({ ...sheet, scope: 'always' })} /> Always run it as soon as it’s ready</label>
+              <label><input type="radio" name="scope" checked={sheet.scope === 'once'} onChange={() => setSheet({ ...sheet, scope: 'once' })} /> Just tonight <span className="scope-hint">Tomorrow Tend goes back to the cheapest hours.</span></label>
+              <label><input type="radio" name="scope" checked={sheet.scope === 'always'} onChange={() => setSheet({ ...sheet, scope: 'always' })} /> Always run it as soon as it’s ready <span className="scope-hint">You can undo this in Goals at any time.</span></label>
             </fieldset>
             <div className="actions">
               <button type="button" className="btn" onClick={confirmOverride}>{sheet.g.goal.device === 'car' ? 'Charge now' : 'Run now'}</button>
@@ -233,6 +239,7 @@ export default function App() {
         {sheet?.type === 'edit' && (
           <Sheet title="Change this goal" onClose={closeSheet}>
             <GoalBuilder
+              household={household}
               goal={sheet.goal}
               onCancel={closeSheet}
               onSave={(draft) => {

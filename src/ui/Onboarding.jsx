@@ -52,7 +52,7 @@ export default function Onboarding({ household, onDone }) {
       )}
 
       {step === 1 && (
-        <GoalBuilder goal={goal} title="" onCancel={() => setStep(0)} onSave={(g) => { setGoal(g); setStep(2); }} />
+        <GoalBuilder household={household} goal={goal} title="" onCancel={() => setStep(0)} onSave={(g) => { setGoal(g); setStep(2); }} />
       )}
 
       {step === 2 && (

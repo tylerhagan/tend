@@ -29,7 +29,7 @@ function GoalCheck({ household, g }) {
 }
 
 export default function Today({
-  household, lastNight, tonight, conflict, mode, approvals,
+  household, lastNight, tonight, conflict, mode, approvals, pausedAll, onResumeAll,
   onOverride, onPause, onApprove, onResolve, onEditGoals, onNote,
 }) {
   const missed = lastNight.goals.find((g) => g.goal.firm === 'must' && !g.met);
@@ -101,6 +101,14 @@ export default function Today({
           <h2 id="plan-h" className="section-h">Tonight’s plan</h2>
           <span className="pill">{mode === 'suggest' ? 'Asks you first' : 'Acts and tells you'}</span>
         </div>
+
+        {pausedAll && (
+          <div className="callout">
+            <p className="callout-title">Tend is paused.</p>
+            <p>Tonight everything runs as soon as it’s ready, the way it did before Tend. Your goals are kept.</p>
+            <div className="actions"><button type="button" className="btn small" onClick={onResumeAll}>Resume Tend</button></div>
+          </div>
+        )}
 
         {conflict && (
           <div className="callout is-miss" role="alert">

@@ -59,7 +59,7 @@ export const missedExplanation = (household, g) => {
   const target = Math.round(g.goal.outcome * 100);
   if (g.goal.device !== 'car') return `It was ready ${g.lateBy} minutes late.`;
   const plugged = clock(slotClock(g.win?.from ?? g.start));
-  return `It was plugged in at ${plugged}, too late to reach ${target}% by ${clock(g.goal.by)}. It charged at full speed from then on, and will be at ${target}% by ${clock(g.finishClock)} if left plugged in.`;
+  return `Charging could start at ${plugged}, which left room for ${carPercentAt(household, g, g.reachedByDeadline)}% by ${clock(g.goal.by)}. Tend charged at full speed the whole time. It will reach ${target}% by ${clock(g.finishClock)} if left plugged in.`;
 };
 
 export const rangeKm = (household, percent) => Math.round((household.car.capacityKwh * percent) / 100 * 6);

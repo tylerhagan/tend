@@ -8,7 +8,7 @@ export const CLAUSES = {
   outcome: {
     label: 'Outcome',
     options: {
-      car: [0.6, 0.8, 1],
+      car: [0.6, 0.8, 1, { km: 50 }, { km: 150 }, { km: 300 }],
       heating: ['19 °C', '20 °C', '21 °C', '22 °C'],
       hotwater: ['ready'],
       dishwasher: ['finished'],
@@ -19,27 +19,39 @@ export const CLAUSES = {
   when: { label: 'When', options: ['weekdays', 'every day', 'tomorrow only'] },
 };
 
-const show = (key, v) => (key === 'outcome' && typeof v === 'number' ? `${Math.round(v * 100)}%` : key === 'by' ? clock(v) : v);
+const KM_PER_KWH = 6;
+const show = (key, v) =>
+  key === 'outcome' && v?.km ? `enough for ${v.km} km` : key === 'outcome' && typeof v === 'number' ? `${Math.round(v * 100)}%` : key === 'by' ? clock(v) : v;
 
 // Clause-by-clause builder: the sentence is the form
-export function GoalBuilder({ goal, onSave, onCancel, title = 'Change this goal' }) {
+export function GoalBuilder({ goal, household, onSave, onCancel, title = 'Change this goal' }) {
   const [draft, setDraft] = useState(goal);
   const [open, setOpen] = useState(null);
+  // A range goal is stored as the charge level it needs, so the planner is unchanged
+  const pick = (key, v) => {
+    if (key === 'outcome' && v?.km && household?.car) {
+      const level = Math.min(1, household.car.soc + v.km / KM_PER_KWH / household.car.capacityKwh);
+      setDraft({ ...draft, outcome: +level.toFixed(2), km: v.km });
+    } else if (key === 'outcome') setDraft({ ...draft, outcome: v, km: undefined });
+    else setDraft({ ...draft, [key]: v });
+    setOpen(null);
+  };
+  const current = (key) => (key === 'outcome' && draft.km ? { km: draft.km } : draft[key]);
   const chip = (key) => (
     <button
       type="button"
       className="chip"
       aria-expanded={open === key}
-      aria-label={`${CLAUSES[key].label}: ${show(key, draft[key])}. Change`}
+      aria-label={`${CLAUSES[key].label}: ${show(key, current(key))}. Change`}
       onClick={() => setOpen(open === key ? null : key)}
     >
-      {show(key, draft[key])}
+      {show(key, current(key))}
     </button>
   );
   const options = open === 'outcome' ? CLAUSES.outcome.options[draft.device] : open ? CLAUSES[open].options : [];
   const subject = { car: 'The car', heating: 'The house', hotwater: 'Hot water', dishwasher: 'The dishwasher', washing: 'The washing' }[draft.device];
   const verb = draft.device === 'heating' ? 'from' : 'by';
-  const be = ['hotwater', 'dishwasher', 'washing'].includes(draft.device) ? 'be' : 'be at';
+  const be = draft.km ? 'have' : ['hotwater', 'dishwasher', 'washing'].includes(draft.device) ? 'be' : 'be at';
 
   return (
     <div className="builder">
@@ -55,8 +67,8 @@ export function GoalBuilder({ goal, onSave, onCancel, title = 'Change this goal'
               key={String(v)}
               type="button"
               className="btn small ghost"
-              aria-pressed={draft[open] === v}
-              onClick={() => { setDraft({ ...draft, [open]: v }); setOpen(null); }}
+              aria-pressed={JSON.stringify(current(open)) === JSON.stringify(v)}
+              onClick={() => pick(open, v)}
             >
               {show(open, v)}
             </button>

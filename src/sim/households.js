@@ -115,7 +115,9 @@ export const goalSentence = (goal) => {
   const device = DEVICE_NAMES[goal.device];
   const verb = goal.firm === 'must' ? 'must' : 'should';
   const outcome =
-    goal.device === 'car'
+    goal.device === 'car' && goal.km
+      ? `have enough for ${goal.km} km`
+      : goal.device === 'car'
       ? `be at ${Math.round(goal.outcome * 100)}%`
       : goal.device === 'heating'
         ? `be at ${goal.outcome}`
